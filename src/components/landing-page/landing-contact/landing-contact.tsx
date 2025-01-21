@@ -95,8 +95,8 @@ export default function Contact() {
 
 
 	return (
-		<div id="contact" className="w-full bg-white pb-0 pt-0">
-			<div className="container mx-auto px-6 pb-0">
+		<div id="contact" className="w-full bg-white">
+			<div className="container mx-auto px-6">
 				<div 
 					ref={containerRef}
 					onMouseMove={handleMouseMove}

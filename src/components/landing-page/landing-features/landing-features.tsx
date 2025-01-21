@@ -206,69 +206,83 @@ export default function Features() {
 		};
 	}, [scheduleNextTransition]);
 
+	const textVariants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: { 
+			opacity: 1, 
+			y: 0,
+			transition: {
+				duration: 0.5,
+				ease: "easeOut"
+			}
+		}
+	};
+
 	return (
-		<section id="features" className="w-full min-h-[100dvh] bg-[#191c2b] relative z-10 flex items-center py-12 pb-0 md:py-16 md:pb-0">
-			<div className="container mx-auto px-6">
-				<div className="flex flex-col items-center justify-center gap-6 md:gap-12 pb-0">
-					<div className="text-center min-h-[4rem] flex items-center justify-center overflow-hidden px-4">
-						<h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white break-words sm:whitespace-nowrap max-w-[90vw] sm:max-w-none">
-							{displayText || ""}
+		<section id="features" className="w-full bg-[#191c2b] pb-0">
+			<div className="container mx-auto px-6 py-12">
+				<div className="flex flex-col lg:flex-row gap-8">
+					<div className="w-full lg:w-1/2 order-2 lg:order-1">
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							<AnimatePresence mode="wait">
+								<motion.div key={activeIndex} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="contents">
+									{features.map((feature, index) => (
+										<FeatureCard key={feature.title} feature={feature} index={index} />
+									))}
+								</motion.div>
+							</AnimatePresence>
+						</div>
+					</div>
+					<div className="w-full lg:w-1/2 order-1 lg:order-2">
+						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
+							{displayText || "Loading..."}
 							<span className="inline-block w-6 sm:w-8 h-1.5 bg-[#66f770] ml-1 animate-[blink_0.8s_ease-in-out_infinite]"></span>
 						</h2>
+						<motion.p
+							key={`description-${activeIndex}`}
+							variants={textVariants}
+							initial="hidden"
+							animate="visible"
+							className="text-lg md:text-xl text-white mb-8"
+						>
+							{activeIndex === 0 ? (
+								"MoMoola is your gateway to a smarter financial future. Discover personalized financial products that match your needs, apply with ease through simplified processes, and monitor your financial health—all from one secure platform."
+							) : (
+								"MoMoola empowers financial institutions to grow their reach and efficiency. Access verified, ready-to-engage leads, publish tailored products, and streamline onboarding with real-time decisioning tools."
+							)}
+						</motion.p>
 					</div>
-
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto relative will-change-transform">
-						<AnimatePresence mode="wait">
-							<motion.div
-								key={activeIndex}
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								exit={{ opacity: 0 }}
-								className="contents"
-							>
-								{features.map((feature, index) => (
-									<FeatureCard 
-										key={feature.title} 
-										feature={feature} 
-										index={index} 
-									/>
-								))}
-							</motion.div>
-						</AnimatePresence>
-					</div>
-
-
-					<div className="relative bottom-0 inset-x-0 z-20 mt-8">
-						<div className="container mx-auto px-4">
-							<div className="relative flex items-center justify-center gap-8">
-								<button 
-									onClick={() => handleNavigation(Math.max(0, activeIndex - 1))}
-									className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
-								>
-									←
-								</button>
-								<div className="flex gap-3 sm:gap-4">
-									{[0, 1].map((index) => (
-										<button
-											key={index}
-											onClick={() => handleNavigation(index)}
-											className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors transform-gpu ${
-												index === activeIndex ? 'bg-[#66f770]' : 'bg-[#2a2f42]'
-											}`}
-										/>
-									))}
-								</div>
-								<button 
-									onClick={() => handleNavigation(Math.min(1, activeIndex + 1))}
-									className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
-								>
-									→
-								</button>
-							</div>
+				</div>
+				<div className="text-center mt-8">
+					<div className="inline-flex items-center justify-center gap-4">
+						<button 
+							onClick={() => handleNavigation(Math.max(0, activeIndex - 1))}
+							className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
+						>
+							←
+						</button>
+						<div className="flex gap-3 sm:gap-4">
+							{[0, 1].map((index) => (
+								<button
+									key={index}
+									onClick={() => handleNavigation(index)}
+									className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors transform-gpu ${
+										index === activeIndex ? 'bg-[#66f770]' : 'bg-[#2a2f42]'
+									}`}
+								/>
+							))}
 						</div>
+						<button 
+							onClick={() => handleNavigation(Math.min(1, activeIndex + 1))}
+							className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
+						>
+							→
+						</button>
 					</div>
 				</div>
 			</div>
 		</section>
+
+
 	);
 }
