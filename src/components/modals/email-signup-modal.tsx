@@ -2,22 +2,17 @@
 
 import * as React from "react"
 import { useState, useEffect, createContext, useContext, useCallback, useMemo } from "react"
+
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Loader2, Check, MoveRight } from "lucide-react"
 import { Button } from "../landing-page/landing-hero/landing-hero-button"
 import { EmailOctopusForm } from "../forms/email-octopus-form"
 import { cn } from "@/lib/utils"
 
-const AnimatedButton = React.memo(motion(Button));
-
-const buttonVariants = {
-	initial: { scale: 1 },
-	hover: { y: -2, scale: 1.01 },
-	tap: { scale: 0.98 },
-	transition: { type: "spring", stiffness: 600, damping: 25 }
-};
+const emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
 
 const isValidEmail = (email: string) => {
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 };
@@ -47,22 +42,22 @@ const modalVariants = {
 };
 
 interface EmailSignupModalContextType {
-	openModal: (variant: 'dark' | 'light') => void;
+    openModal: (variant: 'dark' | 'light') => void;
 }
 
 interface EmailSignupModalProviderProps {
-	children: React.ReactNode;
-	autoOpen?: boolean;
+    children: React.ReactNode;
+    autoOpen?: boolean;
 }
 
-export const EmailSignupModalContext = createContext<EmailSignupModalContextType | undefined>(undefined)
+export const EmailSignupModalContext = createContext<EmailSignupModalContextType | null>(null);
 
 export function useEmailSignupModal() {
-	const context = useContext(EmailSignupModalContext)
-	if (!context) {
-		throw new Error('useEmailSignupModal must be used within EmailSignupModalProvider')
-	}
-	return context
+    const context = useContext(EmailSignupModalContext);
+    if (!context) {
+        throw new Error('useEmailSignupModal must be used within EmailSignupModalProvider');
+    }
+    return context;
 }
 
 const SuccessMessage = React.memo(({ modalVariant }: { modalVariant: 'dark' | 'light' }) => (
@@ -90,95 +85,114 @@ const SuccessMessage = React.memo(({ modalVariant }: { modalVariant: 'dark' | 'l
 
 SuccessMessage.displayName = 'SuccessMessage';
 
-export function EmailSignupModalProvider({ children, autoOpen }: EmailSignupModalProviderProps) {
-	const [isOpen, setIsOpen] = useState(false);
-	const [modalVariant, setModalVariant] = useState<'dark' | 'light'>('dark');
-	const [email, setEmail] = useState('');
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [showSuccess, setShowSuccess] = useState(false);
-	const [shouldSubmit, setShouldSubmit] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const [isValidating, setIsValidating] = useState(false);
+export function EmailSignupModalProvider({ children, autoOpen = false }: EmailSignupModalProviderProps) {
+    // State declarations first
+    const [mounted, setMounted] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalVariant, setModalVariant] = useState<'dark' | 'light'>('dark');
+    const [email, setEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [shouldSubmit, setShouldSubmit] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [isValidating, setIsValidating] = useState(false);
 
-	const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		setEmail(value);
-		
-		if (value && isValidating) {
-			if (!isValidEmail(value)) {
-				setError('Please enter a valid email address');
-			} else {
-				setError(null);
-			}
-		}
-	}, [isValidating]);
+    // Callbacks
+    const handleClose = useCallback(() => {
+        if (!isSubmitting) {
+            setIsOpen(false);
+            setEmail('');
+            setShouldSubmit(false);
+            setShowSuccess(false);
+        }
+    }, [isSubmitting]);
 
-	const openModal = useCallback((variant: 'dark' | 'light') => {
-		setModalVariant(variant);
-		setIsOpen(true);
-	}, []);
+    const handleSuccess = useCallback(() => {
+        setShowSuccess(true);
+        setShouldSubmit(false);
+        setIsSubmitting(false);
+        const timer = setTimeout(() => {
+            handleClose();
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [handleClose]);
 
-	const contextValue = useMemo(() => ({ openModal }), [openModal]);
+    const openModal = useCallback((variant: 'dark' | 'light') => {
+        setModalVariant(variant);
+        setIsOpen(true);
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+    }, []);
 
-	useEffect(() => {
-		if (autoOpen) {
-			const timer = setTimeout(() => {
-				setModalVariant('dark');
-				setIsOpen(true);
-			}, 1000);
-			return () => clearTimeout(timer);
-		}
-	}, [autoOpen]);
+    const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setEmail(value);
+        
+        if (value && isValidating) {
+            if (!isValidEmail(value)) {
+                setError('Please enter a valid email address');
+            } else {
+                setError(null);
+            }
+        }
+    }, [isValidating]);
 
-	useEffect(() => {
-		if (isOpen) {
-			document.documentElement.style.overflow = 'hidden'
-			document.body.style.overflow = 'hidden'
-		}
-		return () => {
-			document.documentElement.style.overflow = ''
-			document.body.style.overflow = ''
-		}
-	}, [isOpen])
+    const handleSubmit = useCallback((e: React.FormEvent) => {
+        e.preventDefault();
+        if (!email) return;
+        
+        if (!isValidEmail(email)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+        
+        setError(null);
+        setIsSubmitting(true);
+        setShouldSubmit(true);
+    }, [email]);
 
-	const handleSubmit = useCallback((e: React.FormEvent) => {
-		e.preventDefault();
-		if (!email) return;
-		
-		if (!isValidEmail(email)) {
-			setError('Please enter a valid email address');
-			return;
-		}
-		
-		setError(null);
-		setIsSubmitting(true);
-		setShouldSubmit(true);
-	}, [email]);
+    const handleBackdropClick = useCallback((e: React.MouseEvent) => {
+        if (e.target === e.currentTarget && !isSubmitting && !showSuccess) {
+            handleClose();
+        }
+    }, [isSubmitting, showSuccess, handleClose]);
 
-	const handleSuccess = useCallback(() => {
-		setShowSuccess(true);
-		setShouldSubmit(false);
-		setIsSubmitting(false);
-		const timer = setTimeout(() => {
-			handleClose();
-		}, 2000);
-		return () => clearTimeout(timer);
-	}, []);
+    // Memoized values
+    const contextValue = useMemo<EmailSignupModalContextType>(() => ({
+        openModal
+    }), [openModal]);
 
-	const handleClose = useCallback(() => {
-		if (!isSubmitting) {
-			setIsOpen(false);
-			setEmail('');
-			setShouldSubmit(false);
-			setShowSuccess(false);
-		}
-	}, [isSubmitting]);
+    // Effects
+    useEffect(() => {
+        setMounted(true);
+        return () => {
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        };
+    }, []);
 
-	const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-		if (e.target === e.currentTarget && !isSubmitting && !showSuccess) {
-			handleClose();
-		}
-	}, [isSubmitting, showSuccess, handleClose]);
+    useEffect(() => {
+        if (autoOpen) {
+            const timer = setTimeout(() => {
+                setModalVariant('dark');
+                setIsOpen(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [autoOpen]);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.documentElement.style.overflow = 'hidden'
+            document.body.style.overflow = 'hidden'
+        }
+        return () => {
+            document.documentElement.style.overflow = ''
+            document.body.style.overflow = ''
+        }
+    }, [isOpen]);
+
+    if (!mounted) return null;
 
 	return (
 		<EmailSignupModalContext.Provider value={contextValue}>
@@ -246,65 +260,65 @@ export function EmailSignupModalProvider({ children, autoOpen }: EmailSignupModa
 								  <p className={modalVariant === 'dark' ? "text-white mb-6" : "text-gray-700 mb-6"}>
 									Sign up for early access and stay up to date with our progress!
 								  </p>
-								  <form onSubmit={handleSubmit} className="space-y-4">
-									{error && (
-										<p className={cn(
-											"text-sm",
-											modalVariant === 'dark' ? "text-red-400" : "text-red-600"
-										)}>
-											{error}
-										</p>
-									)}
-									<input
-									  type="email"
-									  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-									  value={email}
-									  onChange={handleEmailChange}
-									  onBlur={() => setIsValidating(true)}
-									  placeholder="Enter your email"
-									  className={cn(
-										"w-full p-3 rounded focus:outline-none transition-colors",
-										modalVariant === 'dark' 
-										  ? "bg-[#2a2f42] text-white border border-white/10 focus:border-[#66f770]"
-										  : "bg-[#191c2b]/5 text-[#191c2b] border border-[#191c2b]/20 focus:border-[#191c2b] focus:border-2",
-										error && "border-red-500"
-									  )}
-									  required
-									  disabled={isSubmitting}
-									/>
-									<AnimatedButton
-									  type="submit"
-									  className={cn(
-										"w-full",
-										modalVariant === 'dark'
-										  ? "bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90"
-										  : "bg-[#191c2b] text-white hover:bg-[#191c2b]/90"
-									  )}
-									  variants={buttonVariants}
-									  initial="initial"
-									  whileHover="hover"
-									  whileTap="tap"
-									  disabled={isSubmitting}
-									>
-									  {isSubmitting ? (
-										<>
-										  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-										  Signing up...
-										</>
-									  ) : (
-										'Sign up'
-									  )}
-									</AnimatedButton>
-								  </form>
-								  <EmailOctopusForm 
-									email={shouldSubmit ? email : undefined} 
-									onSuccess={handleSuccess}
-									onError={(message) => {
-										setError(message);
-										setIsSubmitting(false);
-										setShouldSubmit(false);
-									}}
-								  />
+  <form onSubmit={handleSubmit} className="space-y-4">
+    {error && (
+        <p className={cn(
+            "text-sm",
+            modalVariant === 'dark' ? "text-red-400" : "text-red-600"
+        )}>
+            {error}
+        </p>
+    )}
+    <input
+      type="email"
+      pattern={emailPattern}
+      value={email}
+      onChange={handleEmailChange}
+      onBlur={() => setIsValidating(true)}
+      placeholder="Enter your email"
+      className={cn(
+        "w-full p-3 rounded focus:outline-none transition-colors",
+        modalVariant === 'dark' 
+          ? "bg-[#2a2f42] text-white border border-white/10 focus:border-[#66f770]"
+          : "bg-[#191c2b]/5 text-[#191c2b] border border-[#191c2b]/20 focus:border-[#191c2b] focus:border-2",
+        error && "border-red-500"
+      )}
+      required
+      disabled={isSubmitting}
+    />
+    <motion.div>
+      <Button
+        type="submit"
+        className={cn(
+          "w-full",
+          modalVariant === 'dark'
+            ? "bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90"
+            : "bg-[#191c2b] text-white hover:bg-[#191c2b]/90"
+        )}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Signing up...
+          </>
+        ) : (
+          'Sign up'
+        )}
+      </Button>
+    </motion.div>
+
+    <EmailOctopusForm 
+      email={shouldSubmit ? email : undefined} 
+      onSuccess={handleSuccess}
+      onError={(message) => {
+        setError(message);
+        setIsSubmitting(false);
+        setShouldSubmit(false);
+      }}
+    />
+  </form>
+
 								</>
 							  )}
 						</div>
@@ -317,31 +331,30 @@ export function EmailSignupModalProvider({ children, autoOpen }: EmailSignupModa
 }
 
 export const EmailSignupModal = React.memo(function EmailSignupModal({ 
-	buttonClassName,
-	variant = 'dark' 
+    buttonClassName,
+    variant = 'dark' 
 }: { 
-	buttonClassName?: string,
-	variant?: 'dark' | 'light'
+    buttonClassName?: string,
+    variant?: 'dark' | 'light'
 }) {
-	const { openModal } = useEmailSignupModal();
+    const { openModal } = useEmailSignupModal();
 
-	const handleClick = useCallback(() => {
-		openModal(variant);
-	}, [openModal, variant]);
+    const handleClick = useCallback(() => {
+        openModal(variant);
+    }, [openModal, variant]);
 
-	return (
-		<AnimatedButton
-			size="lg"
-			className={cn(buttonClassName, "transform-gpu")}
-			variants={buttonVariants}
-			initial="initial"
-			whileHover="hover"
-			whileTap="tap"
-			onClick={handleClick}
-		>
-			Sign up here <MoveRight className="w-4 h-4" />
-		</AnimatedButton>
-	);
+    return (
+        <motion.div className="inline-block">
+            <Button
+                size="lg"
+                className={cn(buttonClassName)}
+                onClick={handleClick}
+            >
+                Sign up here <MoveRight className="w-4 h-4" />
+            </Button>
+        </motion.div>
+    );
 });
+
 
 

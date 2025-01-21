@@ -8,13 +8,14 @@ import { CalendarModal } from "../../modals/calendar-modal"
 import { EmailSignupModal } from "../../modals/email-signup-modal"
 import { Button } from "./landing-hero-button"
 
-const AnimatedButton = motion(Button)
+const MotionDot = motion.div;
 
-const buttonAnimation = {
-	whileHover: { scale: 1.05 },
-	whileTap: { scale: 0.95 },
-	transition: { type: "spring", stiffness: 400, damping: 17 }
-}
+const handleKnowledgebaseClick = () => {
+
+	if (typeof window !== 'undefined') {
+		window.open('https://momoola.substack.com/', '_blank');
+	}
+};
 
 // Optimization: Constants for performance tuning
 const THROTTLE_MS = 32; // Increased from 12ms to 32ms for better performance
@@ -22,42 +23,40 @@ const DOT_SPACING = 25; // Increased spacing slightly
 const MAX_DOTS = 2000; // Limit total number of dots
 const ANIMATION_DISTANCE = 120;
 
+const useWindowDimensions = () => {
+	const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 });
+
+	React.useEffect(() => {
+		if (typeof window === 'undefined') return;
+		
+		const handleResize = () => {
+			setDimensions({
+				width: window.innerWidth,
+				height: window.innerHeight
+			});
+		};
+
+		handleResize();
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
+	return dimensions;
+};
+
 export default function Hero() {
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-	const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+	const dimensions = useWindowDimensions();
 	const [titleNumber, setTitleNumber] = useState(0)
 	const titles = useMemo(
 		() => ["seamless", "personalized", "data-driven", "secure", "inclusive"],
 		[]
 	)
 
-	// Optimization: Debounced resize handler
-	useEffect(() => {
-		let resizeTimeout: NodeJS.Timeout;
-		const handleResize = () => {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(() => {
-				setDimensions({
-					width: window.innerWidth,
-					height: window.innerHeight
-				});
-			}, 250);
-		};
-
-		setDimensions({
-			width: window.innerWidth,
-			height: window.innerHeight
-		});
-
-		window.addEventListener('resize', handleResize);
-		return () => {
-			window.removeEventListener('resize', handleResize);
-			clearTimeout(resizeTimeout);
-		};
-	}, []);
-
 	// Optimization: RAF for mouse movement
 	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
 		let rafId: number;
 		let lastUpdate = 0;
 		let pendingMousePosition: { x: number, y: number } | null = null;
@@ -86,6 +85,7 @@ export default function Hero() {
 			window.removeEventListener('mousemove', handleMouseMove);
 		};
 	}, []);
+
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -147,6 +147,7 @@ export default function Hero() {
 		};
 	}, [mousePosition]);
 
+
 	return (
 		<div id="hero" className="w-full h-[100dvh] flex items-center justify-center overflow-hidden relative bg-[#191c2b] hero-section z-0">
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -157,22 +158,27 @@ export default function Hero() {
 						style={getDotStyle(dot)}
 					/>
 				))}
+
 			</div>
 
 
 			<div className="container mx-auto relative z-10 h-full flex items-center justify-center px-4 py-8 md:py-0">
 				<div className="flex gap-6 md:gap-8 items-center justify-center flex-col w-full max-w-6xl mx-auto">
 					<div>
-						<AnimatedButton
-							variant="secondary"
-							size="sm"
-							className="gap-4 bg-[#2a2f42] text-white/90 hover:bg-[#2a2f42]/90"
-							{...buttonAnimation}
-							onClick={() => window.open('https://momoola.substack.com/', '_blank')}
+						<motion.div
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							transition={{ type: "spring", stiffness: 400, damping: 17 }}
 						>
-
-							Browse our knowledgebase <MoveRight className="w-4 h-4" />
-						</AnimatedButton>
+							<Button
+								variant="secondary"
+								size="sm"
+								className="gap-4 bg-[#2a2f42] text-white/90 hover:bg-[#2a2f42]/90"
+								onClick={handleKnowledgebaseClick}
+							>
+								Browse our knowledgebase <MoveRight className="w-4 h-4" />
+							</Button>
+						</motion.div>
 					</div>
 					<div className="flex gap-8 flex-col">
 						<h1 className="text-4xl md:text-6xl lg:text-8xl max-w-2xl tracking-tighter text-center font-regular text-white">

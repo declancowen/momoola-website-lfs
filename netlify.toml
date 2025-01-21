@@ -12,3 +12,4 @@
   EMAIL_OCTOPUS_LIST_ID = "08edeb42-5d3d-11ef-816c-716b9a3f06d3"
   NEXT_TELEMETRY_DISABLED = "1"
   NEXT_FORCE_SWC_TRANSFORMS = "true"
+  NPM_FLAGS = "--legacy-peer-deps"

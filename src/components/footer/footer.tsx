@@ -43,11 +43,11 @@ export default function Footer() {
 							alt="MoMoola"
 							width={100}
 							height={33}
-							className="object-contain"
+							className="object-contain w-[100px] h-[33px]"
 							priority
 							loading="eager"
-							unoptimized
 						/>
+
 					</div>
 
 					<nav className="flex justify-center items-center">
@@ -55,7 +55,7 @@ export default function Footer() {
 
 								{navigationLinks.map((link) => (
 								<li key={link.href}>
-									<motion.span className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
+									<motion.div className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
 										<Link
 											href={link.href}
 											onClick={(e) => scrollToSection(e, link.href)}
@@ -63,7 +63,7 @@ export default function Footer() {
 										>
 											{link.label}
 										</Link>
-									</motion.span>
+									</motion.div>
 
 								</li>
 							))}
@@ -72,7 +72,7 @@ export default function Footer() {
 
 					<div className="flex justify-center md:justify-end gap-6">
 						{socialLinks.map((social) => (
-							<motion.span className="inline-block" key={social.label} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
+							<motion.div className="inline-block" key={social.label} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
 								<a
 									href={social.href}
 									target="_blank"
@@ -81,7 +81,7 @@ export default function Footer() {
 								>
 									<social.icon className="w-6 h-6 stroke-[1.25]" />
 								</a>
-							</motion.span>
+							</motion.div>
 
 						))}
 					</div>
@@ -90,13 +90,13 @@ export default function Footer() {
 				<div className="mt-8 pt-8 pb-8 border-t text-center">
 					<p className="text-black text-sm mb-4">© 2025 MoMoola UK Ltd. All rights reserved.</p>
 					<div className="text-sm text-black">
-						<motion.span className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
+						<motion.div className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
 							<TermsModal />
-						</motion.span>
+						</motion.div>
 						<span className="mx-2">|</span>
-						<motion.span className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
+						<motion.div className="inline-block" whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 500 }}>
 							<PrivacyModal />
-						</motion.span>
+						</motion.div>
 					</div>
 
 				</div>

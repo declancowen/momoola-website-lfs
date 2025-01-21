@@ -19,9 +19,9 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className="light">
-			<body className="min-h-screen bg-background font-sans antialiased overflow-x-hidden flex flex-col">
-				<EmailSignupModalProvider autoOpen={true}>
+		<html lang="en" suppressHydrationWarning>
+			<body className="min-h-screen bg-background font-sans antialiased overflow-x-hidden flex flex-col" suppressHydrationWarning>
+				<EmailSignupModalProvider autoOpen={false}>
 					<FloatingNav />
 					<div className="flex-grow">
 						{children}

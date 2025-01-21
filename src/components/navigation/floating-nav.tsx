@@ -86,7 +86,6 @@ export function FloatingNav() {
 							? "bg-[#191c2b]/85 border-[#66F770] border-[0.5px] shadow-lg shadow-[#66F770]/15" 
 							: "bg-white/85 border-gray-300/50 shadow-lg shadow-black/10"
 					)}
-
 					initial={false}
 					animate={{ 
 						y: isVisible ? 0 : -100,
@@ -112,7 +111,7 @@ export function FloatingNav() {
 									width={28}
 									height={28}
 									priority
-									className="object-contain"
+									className="object-contain w-[28px] h-[28px]"
 								/>
 							</Link>
 						</motion.div>
@@ -120,9 +119,9 @@ export function FloatingNav() {
 						<ul className="flex gap-3 sm:gap-6 text-sm sm:text-base overflow-x-auto no-scrollbar">
 							{navigationLinks.map((link) => (
 								<li key={link.href}>
-									<motion.span 
-										className="inline-block" 
-										whileHover={{ y: -2 }} 
+									<motion.div 
+										className="inline-block"
+										whileHover={{ y: -2 }}
 										transition={{ type: "spring", stiffness: 500 }}
 									>
 										<Link
@@ -134,11 +133,10 @@ export function FloatingNav() {
 													? "text-white hover:text-[#66F770]" 
 													: "text-black hover:text-dynamic-green"
 											)}
-
 										>
 											{link.label}
 										</Link>
-									</motion.span>
+									</motion.div>
 								</li>
 							))}
 						</ul>
@@ -148,6 +146,7 @@ export function FloatingNav() {
 		</div>
 	);
 }
+
 
 
 

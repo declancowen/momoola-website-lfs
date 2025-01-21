@@ -7,6 +7,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CalendarModal } from "../../modals/calendar-modal"
 import { EmailSignupModal } from "../../modals/email-signup-modal"
 
+// Add error boundary for EmailSignupModal
+function EmailSignupWrapper({ buttonClassName, variant }: { buttonClassName?: string, variant?: 'dark' | 'light' }) {
+	try {
+		return (
+			<EmailSignupModal
+				buttonClassName={buttonClassName}
+				variant={variant}
+			/>
+		);
+	} catch (error) {
+		console.error('EmailSignupModal error:', error);
+		return null;
+	}
+}
+
 
 const ImagePreloader = React.memo(({ src }: { src: string }) => (
 	<Image
@@ -109,17 +124,21 @@ export default function About() {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 	const { displayText } = useTypewriter(titles[currentIndex]);
+	const preloadImage = (src: string): Promise<void> => {
+		if (typeof window === 'undefined') return Promise.resolve();
+		
+		return new Promise<void>((resolve, reject) => {
+			const img = new window.Image();
+			img.onload = () => resolve();
+			img.onerror = reject;
+			img.src = src;
+		});
+	};
+
 	useEffect(() => {
 		const loadImages = async () => {
 			try {
-				await Promise.all(
-					images.map(src => new Promise<void>((resolve, reject) => {
-						const img = new window.Image();
-						img.onload = () => resolve();
-						img.onerror = reject;
-						img.src = src;
-					}))
-				);
+				await Promise.all(images.map(src => preloadImage(src)));
 				setImagesLoaded(true);
 			} catch (error) {
 				console.error('Error preloading images:', error);
@@ -202,7 +221,7 @@ export default function About() {
                         </p>
 						<div className="flex flex-col sm:flex-row gap-4 sm:gap-3">
 							<CalendarModal buttonClassName="gap-4 bg-white text-[#191c2b] border-black hover:bg-white/90 hover:text-[#191c2b]" />
-							<EmailSignupModal
+							<EmailSignupWrapper
 								buttonClassName="gap-4 bg-[#191c2b] text-white hover:bg-[#191c2b]/90"
 								variant="light"
 							/>

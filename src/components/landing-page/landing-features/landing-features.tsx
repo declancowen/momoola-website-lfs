@@ -129,7 +129,10 @@ const providerFeatures = [
 	},
 ];
 
-const FeatureCard = React.memo(({ feature }: { feature: typeof customerFeatures[0] }) => {
+const FeatureCard = React.memo(({ feature, index }: { 
+	feature: typeof customerFeatures[0]; 
+	index: number;
+}) => {
 	const Icon = feature.icon;
 	
 	return (
@@ -137,6 +140,17 @@ const FeatureCard = React.memo(({ feature }: { feature: typeof customerFeatures[
 			className="bg-[#2a2f42] rounded-lg p-4 md:p-6 shadow-sm hover:shadow-xl border-2 border-transparent hover:border-[#66f770] active:border-[#66f770] cursor-pointer transform-gpu"
 			whileHover={{ y: -4 }}
 			whileTap={{ scale: 0.98 }}
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ 
+				opacity: 1, 
+				y: 0,
+				transition: {
+					delay: index * 0.05,
+					duration: 0.3,
+					ease: [0.23, 1, 0.32, 1]
+				}
+			}}
+			exit={{ opacity: 0, y: 20 }}
 			transition={{ 
 				type: "spring",
 				stiffness: 400,
@@ -144,10 +158,6 @@ const FeatureCard = React.memo(({ feature }: { feature: typeof customerFeatures[
 				mass: 0.5
 			}}
 		>
-
-
-
-
 			<div className="bg-[#66f770] w-12 h-12 rounded-lg flex items-center justify-center mb-4">
 				<Icon className="w-6 h-6 text-[#191c2b] stroke-[1.5]" />
 			</div>
@@ -169,23 +179,8 @@ export default function Features() {
 	);
 	const timeoutRef = React.useRef<NodeJS.Timeout>();
 
-	const containerVariants = {
-		enter: { opacity: 1 },
-		exit: { opacity: 0 }
-	};
 
-	const itemVariants = {
-		hidden: { opacity: 0, y: 20 },
-		visible: (i: number) => ({
-			opacity: 1,
-			y: 0,
-			transition: {
-				delay: i * 0.05,
-				duration: 0.3,
-				ease: [0.23, 1, 0.32, 1]
-			}
-		})
-	};
+
 
 	const scheduleNextTransition = React.useCallback(() => {
 		if (timeoutRef.current) {
@@ -226,28 +221,22 @@ export default function Features() {
 						<AnimatePresence mode="wait">
 							<motion.div
 								key={activeIndex}
-								variants={containerVariants}
-								initial="exit"
-								animate="enter"
-								exit="exit"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
 								className="contents"
 							>
 								{features.map((feature, index) => (
-									<motion.div
-										key={feature.title}
-										custom={index}
-										variants={itemVariants}
-										initial="hidden"
-										animate="visible"
-										exit="hidden"
-										className="transform-gpu"
-									>
-										<FeatureCard feature={feature} />
-									</motion.div>
+									<FeatureCard 
+										key={feature.title} 
+										feature={feature} 
+										index={index} 
+									/>
 								))}
 							</motion.div>
 						</AnimatePresence>
 					</div>
+
 
 					<div className="relative bottom-0 inset-x-0 z-20 mt-8">
 						<div className="container mx-auto px-4">

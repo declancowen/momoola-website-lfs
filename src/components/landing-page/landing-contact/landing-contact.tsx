@@ -8,24 +8,25 @@ import { motion } from "framer-motion"
 import { Badge } from "./badge"
 import { Button } from "./button"
 
-const AnimatedButton = motion(Button)
-
 const ANIMATION_DISTANCE = 120;
 const DOT_SPACING = 50; // Smaller spacing for denser pattern
 const MAX_DOTS = 400; // Increased to allow more dots with smaller spacing
 
-const buttonAnimation = {
-	whileHover: { scale: 1.05 },
-	whileTap: { scale: 0.95 },
-	transition: { type: "spring", stiffness: 400, damping: 17 }
-}
 
 export default function Contact() {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 	const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
+	const handleEmailClick = () => {
+		if (typeof window !== 'undefined') {
+			window.location.href = 'mailto:partnerships@momoola.io';
+		}
+	};
+
 	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
 		const updateDimensions = () => {
 			if (containerRef.current) {
 				const rect = containerRef.current.getBoundingClientRect()
@@ -92,6 +93,7 @@ export default function Contact() {
 	}, [mousePosition]);
 
 
+
 	return (
 		<div id="contact" className="w-full bg-white py-12 md:py-20">
 			<div className="container mx-auto px-6">
@@ -109,6 +111,7 @@ export default function Contact() {
 								className="absolute w-[2px] h-[2px] bg-[#66F770] rounded-full transition-all duration-300 ease-out transform-gpu"
 								style={getDotStyle(dot)}
 							/>
+
 						))}
 					</div>
 
@@ -126,15 +129,19 @@ export default function Contact() {
 					<div className="flex flex-col sm:flex-row gap-4 relative z-10">
 						<CalendarModal buttonClassName="gap-4 bg-[#191c2b] text-[#66f770] border-[#66f770] hover:bg-[#191c2b]/90 hover:text-[#66f770]" />
 
-						<AnimatedButton 
-							className="gap-4 bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90" 
-							size="lg"
-							{...buttonAnimation}
-							onClick={() => window.location.href = 'mailto:partnerships@momoola.io'}
+						<motion.div
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							transition={{ type: "spring", stiffness: 400, damping: 17 }}
 						>
-
-							Send an email<Mail className="w-4 h-4"/>
-						</AnimatedButton>
+							<Button 
+								className="gap-4 bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90" 
+								size="lg"
+								onClick={handleEmailClick}
+							>
+								Send an email<Mail className="w-4 h-4"/>
+							</Button>
+						</motion.div>
 					</div>
 				</div>
 			</div>
