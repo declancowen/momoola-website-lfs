@@ -207,9 +207,9 @@ export default function Features() {
 	}, [scheduleNextTransition]);
 
 	return (
-		<section id="features" className="w-full min-h-[100dvh] bg-[#191c2b] relative z-10 flex items-center py-16 md:py-24">
+		<section id="features" className="w-full min-h-[100dvh] bg-[#191c2b] relative z-10 flex items-center py-12 pb-0 md:py-16 md:pb-0">
 			<div className="container mx-auto px-6">
-				<div className="flex flex-col items-center justify-center gap-8 md:gap-16 pb-16 md:pb-0">
+				<div className="flex flex-col items-center justify-center gap-6 md:gap-12 pb-0">
 					<div className="text-center min-h-[4rem] flex items-center justify-center overflow-hidden px-4">
 						<h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white break-words sm:whitespace-nowrap max-w-[90vw] sm:max-w-none">
 							{displayText || ""}

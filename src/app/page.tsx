@@ -6,7 +6,7 @@ import { Contact } from "@/components/landing-page/landing-contact"
 
 export default function Home() {
 	return (
-		<main className="relative">
+		<main className="relative flex flex-col gap-0">
 			<Hero />
 			<About />
 			<Benefits />
