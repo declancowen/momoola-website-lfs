@@ -178,11 +178,11 @@ export default function About() {
                 ))}
             </div>
             {imagesLoaded && (
-<section id="about" className="w-full bg-white min-h-[100dvh] flex items-center relative z-10 py-16 md:py-24">
+<section id="about" className="w-full bg-white min-h-[fit-content] sm:min-h-[120dvh] md:min-h-[100dvh] flex items-start sm:items-center relative z-10 pt-8 pb-10 sm:pb-16 sm:py-16 md:py-24">
 			{/* Navigation Buttons */}
-			<div className="absolute bottom-20 inset-x-0 z-20">
+			<div className="absolute -translate-y-[50px] sm:translate-y-0 -bottom-2 sm:-bottom-8 lg:bottom-20 inset-x-0 z-10">
 				<div className="container mx-auto px-4">
-					<div className="relative flex items-center justify-center gap-8">
+					<div className="relative flex items-center justify-center gap-8 mt-2 sm:mt-0">
 						<button
 							onClick={() => handleNavigation((currentIndex - 1 + images.length) % images.length)}
 							className="bg-gray-200 text-black w-8 h-8 rounded-full hover:bg-gray-300 transition-colors flex items-center justify-center text-sm"
@@ -209,83 +209,74 @@ export default function About() {
 					</div>
 				</div>
 			</div>
-			<div className="container mx-auto px-6 flex items-center">
-				<div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 w-full">
-					<div className="w-full lg:w-1/2 px-4 md:px-0 text-center lg:text-left">
-						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 min-h-[4rem] mb-4 md:mb-6">
+			<div className="container mx-auto px-6 flex items-start sm:items-center">
+				<div className="flex flex-col lg:flex-row items-start sm:items-center gap-0 sm:gap-8 lg:gap-12 w-full">
+					<div className="w-full lg:w-1/2 px-4 md:px-0 text-center lg:text-left mb-1 sm:mb-0 pt-4 sm:pt-0">
+						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 min-h-[4rem] mb-3 md:mb-6">
 							{displayText}
 							<span className="inline-block w-6 sm:w-8 h-1.5 bg-[#66f770] ml-1 animate-[blink_0.8s_ease-in-out_infinite]"></span>
 						</h2>
-						<p className="text-lg sm:text-lg md:text-xl text-gray-600 leading-relaxed md:leading-loose lg:pr-7 mb-8 md:mb-12">
+						<p className="text-lg sm:text-lg md:text-xl text-gray-600 leading-relaxed md:leading-loose lg:pr-7 mb-6 md:mb-12">
                         Simplify your financial journey with MoMoola's powerful platform. From creating your digital identity to monitoring your credit, we make every step seamless, secure, and personalized. Empower yourself with smarter financial choices and connect with trusted partners—all in one place.
                         </p>
-						<div className="flex flex-col sm:flex-row gap-4 sm:gap-3">
-							<CalendarModal buttonClassName="gap-4 bg-white text-[#191c2b] border-black hover:bg-white/90 hover:text-[#191c2b]" />
-							<EmailSignupWrapper
-								buttonClassName="gap-4 bg-[#191c2b] text-white hover:bg-[#191c2b]/90"
-								variant="light"
-							/>
+						<div className="flex flex-col sm:flex-row gap-4 sm:gap-3 w-full sm:w-auto max-w-[300px] mx-auto sm:max-w-none">
+							<div className="w-full sm:w-auto">
+								<CalendarModal buttonClassName="w-full gap-4 bg-white text-[#191c2b] border-black hover:bg-white/90 hover:text-[#191c2b]" />
+							</div>
+							<div className="w-full sm:w-auto">
+								<EmailSignupWrapper
+									buttonClassName="w-full gap-4 bg-[#191c2b] text-white hover:bg-[#191c2b]/90"
+									variant="light"
+								/>
+							</div>
 						</div>
 
 
                     </div>
 
-					<div className="w-full lg:w-1/2 h-[500px] md:h-[700px] relative flex items-center">
-						<div className="absolute inset-0 flex items-center justify-center h-full">
-							<div className="relative w-[95%] h-full mx-auto flex items-center">
-								<div className="absolute inset-0 grid grid-cols-[0.75fr_1.5fr_0.75fr] gap-3 items-center h-full">
-									<AnimatePresence initial={false} mode="wait">
-										<motion.div 
-											key={`container-${currentIndex}`}
-											className="contents"
-											initial={{ opacity: 0 }}
-											animate={{ opacity: 1 }}
-											exit={{ opacity: 0 }}
-											transition={{ duration: 0.5 }}
-										>
-											{[-1, 0, 1].map((offset) => {
-												const slideIndex = getSlideIndex(offset);
-												const position = offset === -1 ? "opacity-30" : offset === 0 ? "" : "opacity-30";
-												
-												return (
-													<motion.div 
-														key={`slide-${slideIndex}`}
-														className={`flex items-center justify-center ${position} transform-gpu`}
-														style={{ 
-															zIndex: offset === 0 ? 2 : 1,
-															transformOrigin: 'center center'
-														}}
-														variants={slideVariants}
-														custom={direction}
-														initial="exit"
-														animate="enter"
-														exit="exit"
-
-
-													>
-														<div className="relative w-full h-[700px]">
-															<Image
-																src={images[slideIndex]}
-																alt={offset === 0 ? "Current" : offset === -1 ? "Previous" : "Next"}
-																width={4000}
-																height={8000}
-																className="object-contain h-full w-full"
-																style={{ maxWidth: '100%', objectFit: 'contain', height: '100%', width: 'auto' }}
-																priority
-																loading="eager"
-																quality={100}
-															/>
-														</div>
-													</motion.div>
-												);
-											})}
-										</motion.div>
-									</AnimatePresence>
+					<div className="w-full lg:w-1/2 h-[500px] sm:h-[500px] md:h-[700px] relative mt-6 sm:mt-0 mb-4 sm:mb-0">
+						<div className="absolute inset-0 flex flex-col">
+							<div className="w-[95%] sm:w-[95%] mx-auto h-full">
+								<div className="grid grid-cols-[0.35fr_1.5fr_0.35fr] sm:grid-cols-[0.75fr_1.5fr_0.75fr] gap-2 sm:gap-3 h-full">
+									{[-1, 0, 1].map((offset) => {
+										const slideIndex = getSlideIndex(offset);
+										const position = offset === -1 ? "opacity-30" : offset === 0 ? "" : "opacity-30";
+										
+										return (
+											<motion.div 
+												key={`slide-${slideIndex}`}
+												className={`flex justify-center ${position} transform-gpu`}
+												style={{ 
+													zIndex: offset === 0 ? 2 : 1,
+													transformOrigin: 'center top'
+												}}
+												variants={slideVariants}
+												custom={direction}
+												initial="exit"
+												animate="enter"
+												exit="exit"
+											>
+												<div className="relative w-full h-full">
+													<Image
+														src={images[slideIndex]}
+														alt={offset === 0 ? "Current" : offset === -1 ? "Previous" : "Next"}
+														width={4000}
+														height={8000}
+														className="object-contain h-full w-full"
+														style={{ maxWidth: '100%', objectFit: 'contain', height: '100%', width: 'auto' }}
+														priority
+														loading="eager"
+														quality={100}
+													/>
+												</div>
+											</motion.div>
+										);
+									})}
 								</div>
-
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</section>

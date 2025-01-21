@@ -126,22 +126,26 @@ export default function Contact() {
 							Navigating financial services shouldn't be complicated. Simplify your journey with our innovative platform, designed to make accessing and managing financial opportunities seamless and efficient. Take the first step toward smarter, faster solutions now!
 						</p>
 					</div>
-					<div className="flex flex-col sm:flex-row gap-4 relative z-10">
-						<CalendarModal buttonClassName="gap-4 bg-[#191c2b] text-[#66f770] border-[#66f770] hover:bg-[#191c2b]/90 hover:text-[#66f770]" />
-
-						<motion.div
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							transition={{ type: "spring", stiffness: 400, damping: 17 }}
-						>
-							<Button 
-								className="gap-4 bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90" 
-								size="lg"
-								onClick={handleEmailClick}
+					<div className="flex flex-col sm:flex-row gap-4 relative z-10 w-full sm:w-auto">
+						<div className="w-full sm:w-auto">
+							<CalendarModal buttonClassName="w-full gap-4 bg-[#191c2b] text-[#66f770] border-[#66f770] hover:bg-[#191c2b]/90 hover:text-[#66f770]" />
+						</div>
+						<div className="w-full sm:w-auto">
+							<motion.div
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+								transition={{ type: "spring", stiffness: 400, damping: 17 }}
+								className="w-full"
 							>
-								Send an email<Mail className="w-4 h-4"/>
-							</Button>
-						</motion.div>
+								<Button 
+									className="w-full gap-4 bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90" 
+									size="lg"
+									onClick={handleEmailClick}
+								>
+									Send an email<Mail className="w-4 h-4"/>
+								</Button>
+							</motion.div>
+						</div>
 					</div>
 				</div>
 			</div>

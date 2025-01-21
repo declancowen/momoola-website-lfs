@@ -344,14 +344,16 @@ export const EmailSignupModal = React.memo(function EmailSignupModal({
     }, [openModal, variant]);
 
     return (
-        <motion.div className="inline-block">
-            <Button
-                size="lg"
-                className={cn(buttonClassName)}
+        <motion.div className="inline-block w-full sm:w-auto">
+            <button
+                className={cn(
+                    "gap-4 h-11 rounded-md px-8 inline-flex items-center justify-center transform-gpu w-full",
+                    buttonClassName
+                )}
                 onClick={handleClick}
             >
                 Sign up here <MoveRight className="w-4 h-4" />
-            </Button>
+            </button>
         </motion.div>
     );
 });
