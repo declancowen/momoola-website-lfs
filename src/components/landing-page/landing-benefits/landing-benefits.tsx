@@ -145,7 +145,7 @@ const Feature = React.memo(function Feature({
 	return (
 		<div
 			className={cn(
-				"flex flex-col py-2 sm:py-4 md:py-6 relative group/feature transform-gpu",
+				"flex flex-col py-4 md:py-6 relative group/feature transform-gpu",
 				"border-b sm:border-r border-neutral-200",
 				index % 2 === 0 && "sm:border-l md:border-l-0",
 				index % 3 === 0 && "md:border-l",
@@ -154,10 +154,10 @@ const Feature = React.memo(function Feature({
 			)}
 		>
 			<div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-[#66f770]/20 to-transparent pointer-events-none" />
-			<div className="mb-1.5 sm:mb-3 md:mb-4 relative z-10 px-4 sm:px-6 text-black">
+			<div className="mb-3 sm:mb-4 relative z-10 px-4 sm:px-6 text-black">
 				{icon}
 			</div>
-			<div className="text-base sm:text-lg font-bold mb-0.5 sm:mb-2 relative z-10 px-4 sm:px-6">
+			<div className="text-base sm:text-lg font-bold mb-2 relative z-10 px-4 sm:px-6">
 				<div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1.5 rounded-tr-full rounded-br-full bg-[#66f770]/30 group-hover/feature:bg-[#66f770] transition-all duration-200 origin-center" />
 				<span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-black">
 					{title}
@@ -233,7 +233,7 @@ export default function Benefits() {
 					</div>
 					<div className="w-full lg:w-1/2 h-auto relative flex items-center overflow-hidden order-2 lg:order-1 mt-4 sm:mt-6">
 						<div className="w-full flex items-start sm:items-center justify-center bg-transparent">
-							<div className="w-[98%] sm:w-[95%] lg:w-[95%] mx-auto flex items-start sm:items-center">
+							<div className="w-[95%] lg:w-[95%] mx-auto flex items-start sm:items-center overflow-hidden">
 								<AnimatePresence mode="wait" custom={direction}>
 									<motion.div
 										key={activeIndex}
