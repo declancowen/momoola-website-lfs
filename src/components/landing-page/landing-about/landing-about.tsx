@@ -234,7 +234,7 @@ export default function About() {
 
                     </div>
 
-					<div className="w-full lg:w-1/2 h-[500px] sm:h-[500px] md:h-[700px] relative mt-6 sm:mt-0 mb-4 sm:mb-0">
+					<div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] md:h-[700px] relative mt-6 sm:mt-0 mb-4 sm:mb-0">
 						<div className="absolute inset-0 flex flex-col">
 							<div className="w-[95%] sm:w-[95%] mx-auto h-full">
 								<div className="grid grid-cols-[0.35fr_1.5fr_0.35fr] sm:grid-cols-[0.75fr_1.5fr_0.75fr] gap-2 sm:gap-3 h-full">
@@ -260,13 +260,13 @@ export default function About() {
 													<Image
 														src={images[slideIndex]}
 														alt={offset === 0 ? "Current" : offset === -1 ? "Previous" : "Next"}
-														width={4000}
-														height={8000}
+														width={1000}
+														height={2000}
 														className="object-contain h-full w-full"
-														style={{ maxWidth: '100%', objectFit: 'contain', height: '100%', width: 'auto' }}
+														style={{ maxWidth: '100%', objectFit: 'contain', height: '100%', width: 'auto', margin: '0 auto' }}
 														priority
 														loading="eager"
-														quality={100}
+														quality={90}
 													/>
 												</div>
 											</motion.div>

@@ -47,11 +47,15 @@ const useBenefitsTypewriter = (text: string) => {
 };
 
 const containerVariants = {
-	enter: { opacity: 1, x: 0 },
+	enter: { 
+		opacity: 1, 
+		x: 0,
+		transition: { duration: 0.2 }
+	},
 	exit: (direction: number) => ({
 		opacity: 0,
-		x: direction * 20,
-		transition: { duration: 0.3 }
+		x: direction * 10,
+		transition: { duration: 0.2 }
 	})
 };
 
@@ -184,7 +188,7 @@ export default function Benefits() {
 		return setTimeout(() => {
 			setDirection(1);
 			setActiveIndex(prev => (prev + 1) % 2);
-		}, 20000);
+		}, 10000);
 	}, []);
 
 	useEffect(() => {
@@ -199,7 +203,7 @@ export default function Benefits() {
 	}, [activeIndex]);
 
 	return (
-		<section id="benefits" className="w-full bg-gray-50 min-h-[fit-content] sm:min-h-[105dvh] md:min-h-[85dvh] flex items-start sm:items-center relative z-10 pt-6 pb-8 sm:pb-16 sm:py-12 md:py-20">
+		<section id="benefits" className="w-full bg-gray-50 min-h-[fit-content] sm:min-h-[105dvh] md:min-h-[85dvh] flex items-start sm:items-center relative z-10 pt-6 pb-8 sm:pb-16 sm:py-12 md:py-20 overflow-hidden">
 			<div className="container mx-auto px-6 flex flex-col items-start sm:items-center">
 				<div className="flex flex-col lg:flex-row items-start sm:items-center gap-0 sm:gap-8 lg:gap-12 w-full">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center px-4 md:px-0 text-center lg:text-left pt-2 sm:pt-0 order-1 lg:order-2">
@@ -234,7 +238,7 @@ export default function Benefits() {
 					<div className="w-full lg:w-1/2 h-auto relative flex items-center overflow-hidden order-2 lg:order-1 mt-4 sm:mt-6">
 						<div className="w-full flex items-start sm:items-center justify-center bg-transparent">
 							<div className="w-[95%] lg:w-[95%] mx-auto flex items-start sm:items-center overflow-hidden">
-								<AnimatePresence mode="wait" custom={direction}>
+								<AnimatePresence initial={false} mode="wait" custom={direction}>
 									<motion.div
 										key={activeIndex}
 										custom={direction}
@@ -243,6 +247,11 @@ export default function Benefits() {
 										animate="enter"
 										exit="exit"
 										className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 md:gap-0 w-full border border-neutral-200 rounded-lg overflow-hidden transform-gpu will-change-transform bg-white shadow-sm mb-4 sm:mb-0"
+										style={{ 
+											touchAction: 'pan-y',
+											WebkitOverflowScrolling: 'touch',
+											overscrollBehavior: 'contain'
+										}}
 									>
 										{features.map((feature, index) => (
 											<Feature key={feature.title} {...feature} index={index} />

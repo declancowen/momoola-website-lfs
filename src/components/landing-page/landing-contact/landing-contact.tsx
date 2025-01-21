@@ -95,7 +95,7 @@ export default function Contact() {
 
 
 	return (
-		<div id="contact" className="w-full bg-white py-12 md:py-20">
+		<div id="contact" className="w-full bg-white pb-0 pt-12 md:pt-20">
 			<div className="container mx-auto px-6">
 				<div 
 					ref={containerRef}
