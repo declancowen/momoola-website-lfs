@@ -187,7 +187,7 @@ export default function Features() {
 	}, []);
 
 	return (
-		<section id="features" className="w-full bg-[#191c2b] relative isolate z-0 py-16">
+		<section id="features" className="w-full bg-[#191c2b] relative isolate z-10 py-16">
 			<div className="container mx-auto px-6 relative z-10">
 				<div className="flex flex-col items-center text-center mb-12">
 					<h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
