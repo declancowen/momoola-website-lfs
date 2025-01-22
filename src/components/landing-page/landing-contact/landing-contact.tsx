@@ -95,13 +95,13 @@ export default function Contact() {
 
 
 	return (
-		<div id="contact" className="w-full bg-white">
+		<div id="contact" className="w-full bg-white py-16">
 			<div className="container mx-auto px-6">
 				<div 
 					ref={containerRef}
 					onMouseMove={handleMouseMove}
 					onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
-					className="flex flex-col text-center bg-[#191c2b] rounded-3xl p-6 md:p-14 gap-6 md:gap-8 items-center relative overflow-hidden"
+					className="flex flex-col text-center bg-[#191c2b] rounded-3xl p-6 md:p-14 gap-6 md:gap-8 items-center justify-center relative overflow-hidden min-h-[300px]"
 				>
 
 					<div className="absolute inset-0 overflow-hidden pointer-events-none">

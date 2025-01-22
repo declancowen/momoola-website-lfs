@@ -20,49 +20,33 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const useTypewriter = (text: string) => {
-	const [displayText, setDisplayText] = useState(text);
-
+	const [displayText, setDisplayText] = useState('');
+	
 	useEffect(() => {
-		if (text === displayText) return;
 		let rafId: number;
-		let startTime: number;
-		let currentText = displayText;
-		let isDeleting = true;
-		let lastUpdateTime = 0;
-
+		let startTime: number | null = null;
+		
 		const animate = (timestamp: number) => {
 			if (!startTime) startTime = timestamp;
-			const elapsed = timestamp - lastUpdateTime;
-
-			if (elapsed > (isDeleting ? 30 : 40)) {
-				if (isDeleting) {
-					if (currentText.length === 0) {
-						isDeleting = false;
-					} else {
-						currentText = currentText.slice(0, -1);
-						setDisplayText(currentText);
-					}
-				} else {
-					if (currentText.length === text.length) {
-						cancelAnimationFrame(rafId);
-						return;
-					}
-					currentText = text.slice(0, currentText.length + 1);
-					setDisplayText(currentText);
-				}
-				lastUpdateTime = timestamp;
+			const elapsed = timestamp - startTime;
+			const charIndex = Math.floor(elapsed / 30); // Speed up typing slightly
+			
+			if (charIndex <= text.length) {
+				setDisplayText(text.slice(0, charIndex));
+				rafId = requestAnimationFrame(animate);
 			}
-			rafId = requestAnimationFrame(animate);
 		};
-
+		
 		rafId = requestAnimationFrame(animate);
 		return () => cancelAnimationFrame(rafId);
 	}, [text]);
-
-	return { displayText };
+	
+	return displayText;
 };
 
 
+
+// Split features into customer and provider sections
 const customerFeatures = [
 	{
 		title: "Centralized Digital Identity",
@@ -130,7 +114,7 @@ const providerFeatures = [
 ];
 
 const FeatureCard = React.memo(({ feature, index }: { 
-	feature: typeof customerFeatures[0]; 
+	feature: typeof customerFeatures[0];
 	index: number;
 }) => {
 	const Icon = feature.icon;
@@ -145,8 +129,8 @@ const FeatureCard = React.memo(({ feature, index }: {
 				opacity: 1, 
 				y: 0,
 				transition: {
-					delay: index * 0.05,
-					duration: 0.3,
+					delay: index * 0.1,
+					duration: 0.4,
 					ease: [0.23, 1, 0.32, 1]
 				}
 			}}
@@ -170,41 +154,16 @@ const FeatureCard = React.memo(({ feature, index }: {
 FeatureCard.displayName = 'FeatureCard';
 
 export default function Features() {
-	const [activeIndex, setActiveIndex] = React.useState(0);
-	const features = activeIndex === 0 ? customerFeatures : providerFeatures;
-	const { displayText } = useTypewriter(
+	const [activeIndex, setActiveIndex] = useState(0);
+	const [direction, setDirection] = useState(0);
+	
+	const currentFeatures = activeIndex === 0 ? customerFeatures : providerFeatures;
+	const displayText = useTypewriter(
 		activeIndex === 0 
 			? "Simplifying customers financial future" 
 			: "Changing how providers connect and grow"
 	);
-	const timeoutRef = React.useRef<NodeJS.Timeout>();
 
-
-
-
-	const scheduleNextTransition = React.useCallback(() => {
-		if (timeoutRef.current) {
-			clearTimeout(timeoutRef.current);
-		}
-		timeoutRef.current = setTimeout(() => {
-			setActiveIndex(prev => (prev + 1) % 2);
-			scheduleNextTransition();
-		}, 20000);
-	}, []);
-
-	const handleNavigation = useCallback((newIndex: number) => {
-		setActiveIndex(newIndex);
-		scheduleNextTransition();
-	}, [scheduleNextTransition]);
-
-	React.useEffect(() => {
-		scheduleNextTransition();
-		return () => {
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current);
-			}
-		};
-	}, [scheduleNextTransition]);
 
 	const textVariants = {
 		hidden: { opacity: 0, y: 20 },
@@ -218,46 +177,56 @@ export default function Features() {
 		}
 	};
 
+	useEffect(() => {
+		const rotationInterval = setInterval(() => {
+			setDirection(1);
+			setActiveIndex(prev => (prev + 1) % 2);
+		}, 8000);
+
+		return () => clearInterval(rotationInterval);
+	}, []);
+
 	return (
 		<section id="features" className="w-full bg-[#191c2b] pb-0">
 			<div className="container mx-auto px-6 py-12">
-				<div className="flex flex-col lg:flex-row gap-8">
-					<div className="w-full lg:w-1/2 order-2 lg:order-1">
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							<AnimatePresence mode="wait">
-								<motion.div key={activeIndex} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="contents">
-									{features.map((feature, index) => (
-										<FeatureCard key={feature.title} feature={feature} index={index} />
-									))}
-								</motion.div>
-							</AnimatePresence>
-						</div>
-					</div>
-					<div className="w-full lg:w-1/2 order-1 lg:order-2">
-						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
-							{displayText || "Loading..."}
-							<span className="inline-block w-6 sm:w-8 h-1.5 bg-[#66f770] ml-1 animate-[blink_0.8s_ease-in-out_infinite]"></span>
-						</h2>
-						<motion.p
-							key={`description-${activeIndex}`}
-							variants={textVariants}
-							initial="hidden"
-							animate="visible"
-							className="text-lg md:text-xl text-white mb-8"
-						>
-							{activeIndex === 0 ? (
-								"MoMoola is your gateway to a smarter financial future. Discover personalized financial products that match your needs, apply with ease through simplified processes, and monitor your financial health—all from one secure platform."
-							) : (
-								"MoMoola empowers financial institutions to grow their reach and efficiency. Access verified, ready-to-engage leads, publish tailored products, and streamline onboarding with real-time decisioning tools."
-							)}
-						</motion.p>
-					</div>
+				<div className="flex flex-col items-center text-center mb-12">
+					<h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+						{displayText}
+						<span className="inline-block w-6 sm:w-8 h-1.5 bg-[#66f770] ml-1 animate-[blink_0.8s_ease-in-out_infinite]"></span>
+					</h2>
+
 				</div>
-				<div className="text-center mt-8">
-					<div className="inline-flex items-center justify-center gap-4">
+
+				
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+					<AnimatePresence mode="wait" custom={direction}>
+						<motion.div 
+							key={activeIndex}
+							custom={direction}
+							initial={{ opacity: 0, x: direction * 100 }}
+							animate={{ opacity: 1, x: 0 }}
+							exit={{ opacity: 0, x: direction * -100 }}
+							transition={{ 
+								duration: 0.6,
+								ease: [0.43, 0.13, 0.23, 0.96]
+							}}
+							className="contents"
+						>
+							{currentFeatures.map((feature, index) => (
+								<FeatureCard key={`${activeIndex}-${feature.title}`} feature={feature} index={index} />
+							))}
+						</motion.div>
+					</AnimatePresence>
+				</div>
+
+				<div className="w-full">
+					<div className="relative flex items-center justify-center gap-4">
 						<button 
-							onClick={() => handleNavigation(Math.max(0, activeIndex - 1))}
-							className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
+							onClick={() => {
+								setDirection(-1);
+								setActiveIndex(Math.max(0, activeIndex - 1));
+							}}
+							className="bg-gray-800 text-white w-8 h-8 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center text-sm"
 						>
 							←
 						</button>
@@ -265,16 +234,22 @@ export default function Features() {
 							{[0, 1].map((index) => (
 								<button
 									key={index}
-									onClick={() => handleNavigation(index)}
-									className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors transform-gpu ${
-										index === activeIndex ? 'bg-[#66f770]' : 'bg-[#2a2f42]'
+									onClick={() => {
+										setDirection(index > activeIndex ? 1 : -1);
+										setActiveIndex(index);
+									}}
+									className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors ${
+										index === activeIndex ? 'bg-[#66f770]' : 'bg-gray-600'
 									}`}
 								/>
 							))}
 						</div>
 						<button 
-							onClick={() => handleNavigation(Math.min(1, activeIndex + 1))}
-							className="bg-[#2a2f42] text-white w-8 h-8 rounded-full hover:bg-[#2a2f42]/80 transition-colors flex items-center justify-center text-sm transform-gpu"
+							onClick={() => {
+								setDirection(1);
+								setActiveIndex(Math.min(1, activeIndex + 1));
+							}}
+							className="bg-gray-800 text-white w-8 h-8 rounded-full hover:bg-gray-700 transition-colors flex items-center justify-center text-sm"
 						>
 							→
 						</button>
@@ -282,7 +257,5 @@ export default function Features() {
 				</div>
 			</div>
 		</section>
-
-
 	);
 }
