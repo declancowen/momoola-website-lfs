@@ -178,7 +178,7 @@ export default function About() {
                 ))}
             </div>
             {imagesLoaded && (
-<section id="about" className="w-full bg-white min-h-[fit-content] sm:min-h-[105dvh] md:min-h-[85dvh] flex items-start sm:items-center relative z-10 pt-6 pb-8 sm:pb-16 sm:py-12 md:py-20">
+<section id="about" className="w-full bg-white min-h-[fit-content] sm:min-h-[105dvh] md:min-h-[85dvh] flex items-start sm:items-center relative isolate z-20 pt-6 pb-8 sm:pb-16 sm:py-12 md:py-20">
 			{/* Navigation Buttons */}
 			<div className="absolute -translate-y-[40px] sm:translate-y-0 -bottom-2 sm:-bottom-6 lg:bottom-16 inset-x-0 z-10">
 				<div className="container mx-auto px-4">
@@ -232,9 +232,9 @@ export default function About() {
 						</div>
                     </div>
 
-					<div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] md:h-[600px] relative mt-4 sm:mt-0">
+					<div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] md:h-[600px] relative mt-4 sm:mt-0 z-10">
 
-						<div className="absolute inset-0 flex flex-col">
+						<div className="absolute inset-0 flex flex-col z-10 isolate">
 							<div className="w-[90%] sm:w-[95%] mx-auto h-full">
 								<div className="grid grid-cols-[0.35fr_1.5fr_0.35fr] sm:grid-cols-[0.65fr_1.5fr_0.65fr] gap-2 sm:gap-3 h-full">
 									{[-1, 0, 1].map((offset) => {

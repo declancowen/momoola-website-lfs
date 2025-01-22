@@ -95,8 +95,8 @@ export default function Contact() {
 
 
 	return (
-		<div id="contact" className="w-full bg-white py-16">
-			<div className="container mx-auto px-6">
+		<div id="contact" className="w-full bg-white">
+			<div className="container mx-auto px-6 py-16">
 				<div 
 					ref={containerRef}
 					onMouseMove={handleMouseMove}

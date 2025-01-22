@@ -211,8 +211,8 @@ export default function Benefits() {
 	}, [activeIndex]);
 
 	return (
-		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1900px] sm:h-[750px] md:h-[750px] flex items-center justify-center relative z-10 py-16 sm:py-16 overflow-hidden">
-			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-center">
+		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1900px] sm:h-[750px] md:h-[750px] flex items-center justify-center relative isolate z-10 py-16 sm:py-16 overflow-visible">
+			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-center z-10">
 				<div className="flex flex-col lg:flex-row items-center justify-center gap-0 sm:gap-8 lg:gap-12 w-full">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center px-4 md:px-0 text-center lg:text-left order-1 lg:order-2 mb-8 lg:mb-0">
 						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black min-h-[4rem] mb-6">
@@ -243,7 +243,7 @@ export default function Benefits() {
 							</div>
 						</div>
 					</div>
-					<div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden order-2 lg:order-1 h-[1100px] sm:h-[550px]">
+					<div className="w-full lg:w-1/2 flex items-center justify-center overflow-hidden order-2 lg:order-1">
 						<div className="w-[95%] lg:w-[95%] mx-auto h-full flex items-center">
 							<AnimatePresence mode="wait" custom={direction}>
 								<motion.div
@@ -253,7 +253,7 @@ export default function Benefits() {
 									initial="exit"
 									animate="enter"
 									exit="exit"
-									className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-0 w-full border border-neutral-200 rounded-lg overflow-hidden transform-gpu will-change-transform bg-white shadow-sm h-[1100px] sm:h-[550px] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent px-0 sm:px-0"
+									className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-0 w-full border border-neutral-200 rounded-lg overflow-hidden transform-gpu will-change-transform bg-white shadow-sm"
 									style={{ 
 										touchAction: 'pan-y',
 										WebkitOverflowScrolling: 'touch',
