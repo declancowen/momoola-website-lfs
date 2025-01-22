@@ -178,7 +178,7 @@ export default function About() {
                 ))}
             </div>
             {imagesLoaded && (
-<section id="about" className="w-full bg-white relative isolate z-40 min-h-screen pt-6 pb-8 sm:pb-16 sm:py-12 md:py-20">
+<section id="about" className="w-full bg-white relative isolate z-40 min-h-screen py-8 sm:py-16">
 			{/* Navigation Buttons */}
 			<div className="absolute -translate-y-[40px] sm:translate-y-0 -bottom-2 sm:-bottom-6 lg:bottom-16 inset-x-0 z-10">
 				<div className="container mx-auto px-4">
@@ -209,7 +209,7 @@ export default function About() {
 					</div>
 				</div>
 			</div>
-			<div className="container mx-auto px-6 flex flex-col h-full">
+			<div className="container mx-auto px-6 flex flex-col h-full pt-4 sm:pt-8">
 				<div className="flex flex-col lg:flex-row items-start sm:items-center gap-2 sm:gap-6 lg:gap-10 w-full h-full">
 					<div className="w-full lg:w-1/2 px-4 md:px-0 text-center lg:text-left mb-8 lg:mb-0 pt-2 sm:pt-0 order-1 lg:order-1">
 						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 min-h-[3.5rem] mb-3 md:mb-6">
@@ -235,10 +235,14 @@ export default function About() {
 					<div className="w-full lg:w-1/2 min-h-[400px] sm:h-[500px] md:h-[600px] relative -mt-10 sm:mt-0 order-2 lg:order-2 flex-shrink-0">
 						<div className="absolute inset-0 flex flex-col w-full h-full">
 							<div className="w-[90%] sm:w-[95%] mx-auto h-full">
-								<div className="grid grid-cols-[0.35fr_1.5fr_0.35fr] sm:grid-cols-[0.65fr_1.5fr_0.65fr] gap-2 sm:gap-3 h-full w-full">
+								<div className="grid grid-cols-[0.5fr_1.5fr_0.5fr] sm:grid-cols-[0.65fr_1.5fr_0.65fr] gap-2 sm:gap-3 h-full w-full">
 									{[-1, 0, 1].map((offset) => {
 										const slideIndex = getSlideIndex(offset);
-										const position = offset === -1 ? "opacity-30" : offset === 0 ? "" : "opacity-30";
+										const position = offset === -1 
+											? "opacity-30 translate-x-[10px] sm:translate-x-0" 
+											: offset === 0 
+												? "" 
+												: "opacity-30 -translate-x-[10px] sm:translate-x-0";
 										
 										return (
 											<motion.div 
@@ -250,6 +254,7 @@ export default function About() {
 													position: 'relative',
 													height: '100%'
 												}}
+
 												variants={slideVariants}
 												custom={direction}
 												initial="exit"
@@ -262,7 +267,7 @@ export default function About() {
 														alt={offset === 0 ? "Current" : offset === -1 ? "Previous" : "Next"}
 														width={1000}
 														height={2000}
-														className="object-contain h-full w-full"
+														className={`object-contain h-full w-full ${offset === 0 ? '-translate-x-[9px] sm:translate-x-0' : ''}`}
 														style={{ 
 															maxWidth: '100%', 
 															objectFit: 'contain', 

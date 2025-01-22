@@ -211,8 +211,8 @@ export default function Benefits() {
 	}, [activeIndex]);
 
 	return (
-		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1900px] sm:h-[750px] md:h-[750px] flex items-center justify-center relative isolate z-[1] py-16 sm:py-16 overflow-visible">
-			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-center z-[1]">
+		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1750px] sm:h-[750px] md:h-[750px] flex items-start justify-center relative isolate z-[1] py-8 sm:py-16 overflow-visible">
+			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-start z-[1] h-full pt-4 sm:pt-8">
 				<div className="flex flex-col lg:flex-row items-center justify-center gap-0 sm:gap-8 lg:gap-12 w-full">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center px-4 md:px-0 text-center lg:text-left order-1 lg:order-2 mb-8 lg:mb-0">
 						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black min-h-[4rem] mb-6">
