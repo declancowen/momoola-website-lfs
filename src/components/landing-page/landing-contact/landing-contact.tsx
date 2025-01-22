@@ -95,13 +95,13 @@ export default function Contact() {
 
 
 	return (
-		<div id="contact" className="w-full bg-white">
+		<section id="contact" className="w-full bg-white">
 			<div className="container mx-auto px-6 py-16">
 				<div 
 					ref={containerRef}
 					onMouseMove={handleMouseMove}
 					onMouseLeave={() => setMousePosition({ x: 0, y: 0 })}
-					className="flex flex-col text-center bg-[#191c2b] rounded-3xl p-6 md:p-14 gap-6 md:gap-8 items-center justify-center relative overflow-hidden min-h-[300px]"
+					className="flex flex-col text-center bg-[#191c2b] rounded-3xl p-4 md:p-14 gap-4 md:gap-8 items-center justify-center relative overflow-hidden min-h-[300px]"
 				>
 
 					<div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -116,13 +116,13 @@ export default function Contact() {
 					</div>
 
 					<div className="relative z-10">
-						<Badge className="bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90">Get started</Badge>
+						<Badge className="bg-[#66f770] text-[#191c2b] hover:bg-[#66f770]/90 text-xs md:text-sm">Get started</Badge>
 					</div>
 					<div className="flex flex-col gap-2 relative z-10">
-						<h3 className="text-2xl md:text-3xl lg:text-5xl tracking-tighter max-w-xl font-regular text-[#66f770]">
+						<h3 className="text-lg md:text-3xl lg:text-5xl tracking-tighter max-w-xl font-regular text-[#66f770]">
 							Try MoMoola Today!
 						</h3>
-						<p className="text-base md:text-lg leading-relaxed tracking-tight text-white max-w-xl px-4 md:px-0">
+						<p className="text-xs md:text-lg leading-relaxed tracking-tight text-white max-w-xl px-4 md:px-0">
 							Navigating financial services shouldn't be complicated. Simplify your journey with our innovative platform, designed to make accessing and managing financial opportunities seamless and efficient. Take the first step toward smarter, faster solutions now!
 						</p>
 					</div>
@@ -149,7 +149,7 @@ export default function Contact() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 

@@ -6,22 +6,22 @@ import { Contact } from "@/components/landing-page/landing-contact"
 
 export default function Home() {
 	return (
-		<main className="relative flex flex-col isolate">
-			<div className="relative z-[10]">
+		<main className="relative flex flex-col">
+			<section className="relative">
 				<Hero />
-			</div>
-			<div className="relative z-[50]">
+			</section>
+			<section className="relative">
 				<About />
-			</div>
-			<div className="relative z-[40]">
+			</section>
+			<section className="relative">
 				<Benefits />
-			</div>
-			<div className="relative z-[30]">
+			</section>
+			<section className="relative">
 				<Features />
-			</div>
-			<div className="relative z-[20]">
+			</section>
+			<section className="relative">
 				<Contact />
-			</div>
+			</section>
 		</main>
 	)
 }

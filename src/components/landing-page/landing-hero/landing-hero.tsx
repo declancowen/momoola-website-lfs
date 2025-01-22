@@ -149,7 +149,7 @@ export default function Hero() {
 
 
 	return (
-		<div id="hero" className="w-full h-[100dvh] flex items-center justify-center overflow-hidden relative bg-[#191c2b] hero-section z-0">
+		<section id="hero" className="w-full h-[100dvh] flex items-center justify-center overflow-hidden relative bg-[#191c2b] hero-section z-0">
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
 				{dots.map((dot, index) => (
 					<div
@@ -230,7 +230,7 @@ export default function Hero() {
 
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 
