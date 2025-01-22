@@ -9,10 +9,12 @@ export function WhiteEmailSignupModal({ buttonClassName }: { buttonClassName?: s
 		useEmailSignupModal();
 		
 		return (
-			<EmailSignupModal
-				buttonClassName={buttonClassName}
-				variant="light"
-			/>
+			<div className="w-full sm:w-auto">
+				<EmailSignupModal
+					buttonClassName={buttonClassName}
+					variant="light"
+				/>
+			</div>
 		);
 	} catch (error) {
 		console.error('EmailSignupModal error:', error);

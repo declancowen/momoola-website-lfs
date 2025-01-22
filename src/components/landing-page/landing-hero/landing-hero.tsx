@@ -149,7 +149,7 @@ export default function Hero() {
 
 
 	return (
-		<div id="hero" className="w-full h-[100dvh] flex items-center justify-center overflow-hidden relative bg-[#191c2b] hero-section z-0">
+		<section id="hero" className="w-full h-[100dvh] flex items-center justify-center overflow-hidden relative bg-[#191c2b] hero-section z-0">
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
 				{dots.map((dot, index) => (
 					<div
@@ -181,14 +181,14 @@ export default function Hero() {
 						</motion.div>
 					</div>
 					<div className="flex gap-8 flex-col">
-						<h1 className="text-4xl md:text-6xl lg:text-8xl max-w-2xl tracking-tighter text-center font-regular text-white">
+						<h1 className="text-5xl md:text-6xl lg:text-8xl max-w-2xl tracking-tighter text-center font-regular text-white">
 							<span>Experience</span>
 							<span className="relative flex w-full justify-center overflow-hidden text-center md:pb-6 md:pt-2">
 								&nbsp;
 								{titles.map((title, index) => (
 									<motion.span
 										key={index}
-										className="absolute font-semibold text-dynamic-green transform-gpu"
+										className="absolute font-semibold text-dynamic-green transform-gpu text-5xl md:text-6xl lg:text-8xl"
 										initial={{ opacity: 0, y: "-120" }}
 										transition={{ type: "spring", stiffness: 50 }}
 										animate={
@@ -209,24 +209,28 @@ export default function Hero() {
 							</span>
 							financial services
 						</h1>
-						<p className="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-loose tracking-tight text-white max-w-2xl text-center px-4 md:px-0">
+						<p className="text-xl md:text-xl lg:text-2xl leading-relaxed md:leading-loose tracking-tight text-white max-w-2xl text-center px-4 md:px-0">
 							MoMoola simplifies financial services by connecting customers with
 							personalized solutions and empowering Financial Service Providers
 							with verified, data-driven insights.
 						</p>
 					</div>
-					<div className="flex flex-col sm:flex-row gap-3 px-4 md:px-0">
-						<CalendarModal buttonClassName="gap-4 bg-[#191c2b] text-[#66f770] border-[#66f770] hover:bg-[#191c2b]/90 hover:text-[#66f770]" />
-						<EmailSignupModal
-							buttonClassName="gap-4 bg-dynamic-green text-[#191c2b] hover:bg-dynamic-green/90"
-							variant="dark"
-						/>
+					<div className="flex flex-col sm:flex-row gap-3 px-4 md:px-0 w-full sm:w-auto max-w-[300px] mx-auto sm:max-w-none">
+						<div className="w-full sm:w-auto">
+							<CalendarModal buttonClassName="w-full gap-4 bg-[#191c2b] text-[#66f770] border-[#66f770] hover:bg-[#191c2b]/90 hover:text-[#66f770]" />
+						</div>
+						<div className="w-full sm:w-auto">
+							<EmailSignupModal
+								buttonClassName="w-full gap-4 bg-dynamic-green text-[#191c2b] hover:bg-dynamic-green/90"
+								variant="dark"
+							/>
+						</div>
 					</div>
 
 
 				</div>
 			</div>
-		</div>
+		</section>
 	)
 }
 

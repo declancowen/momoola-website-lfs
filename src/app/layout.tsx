@@ -21,9 +21,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className="min-h-screen bg-background font-sans antialiased overflow-x-hidden flex flex-col" suppressHydrationWarning>
-				<EmailSignupModalProvider autoOpen={false}>
+				<EmailSignupModalProvider autoOpen={true}>
 					<FloatingNav />
-					<div className="flex-grow">
+					<div className="flex-1 flex flex-col">
 						{children}
 					</div>
 					<Footer />
