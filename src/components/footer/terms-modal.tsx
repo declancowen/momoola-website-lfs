@@ -15,14 +15,7 @@ import {
 
 export function TermsModal() {
 	return (
-		<Dialog onOpenChange={(open: boolean) => {
-				if (typeof window !== 'undefined' && window.innerWidth < 640) {
-					const nav = document.querySelector('.floating-nav') as HTMLElement;
-				if (nav) {
-					nav.style.display = open ? 'none' : 'block';
-					}
-				}
-			}}>
+		<Dialog>
 			<DialogTrigger asChild>
 				<span className="text-black hover:text-dynamic-green transition-colors cursor-pointer">
 					Terms & Conditions
