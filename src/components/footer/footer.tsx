@@ -28,9 +28,17 @@ export default function Footer() {
 	]
 
 	const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-		e.preventDefault()
-		const element = document.querySelector(href)
-		element?.scrollIntoView({ behavior: "smooth" })
+		e.preventDefault();
+		const element = document.querySelector(href);
+		
+		if (element) {
+			const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+		
+			window.scrollTo({
+				top: Math.max(0, elementPosition),
+				behavior: 'smooth'
+			});
+		}
 	}
 
 	return (

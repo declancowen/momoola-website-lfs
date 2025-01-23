@@ -224,7 +224,7 @@ export default function Benefits() {
 							variants={textVariants}
 							initial="hidden"
 							animate="visible"
-							className="text-lg md:text-xl text-black leading-relaxed md:leading-loose lg:pr-7 mb-8 sm:mb-12 md:mb-16 transform-gpu text-center lg:text-left"
+							className="text-lg md:text-xl text-gray-600 leading-relaxed md:leading-loose lg:pr-7 mb-8 sm:mb-12 md:mb-16 transform-gpu text-center lg:text-left"
 						>
 							{activeIndex === 0 ? (
 								"MoMoola is your gateway to a smarter financial future. Discover personalized financial products that match your needs, apply with ease through simplified processes, and monitor your financial health—all from one secure platform. Whether it's building your credit, managing your spending, or connecting with trusted financial partners, MoMoola puts you in control of your financial journey."

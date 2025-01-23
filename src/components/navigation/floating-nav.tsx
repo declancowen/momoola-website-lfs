@@ -102,14 +102,10 @@ export function FloatingNav() {
 			
 			// Small delay to allow menu to close and get correct positions
 			setTimeout(() => {
-				const isMobile = window.innerWidth < 640;
-				const headerOffset = isMobile ? 0 : 96; // Only apply offset on desktop
-				const elementRect = element.getBoundingClientRect();
-				const absoluteElementTop = elementRect.top + window.pageYOffset;
-				const scrollTo = absoluteElementTop - headerOffset;
+				const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
 
 				window.scrollTo({
-					top: Math.max(0, scrollTo),
+					top: Math.max(0, elementPosition),
 					behavior: 'smooth'
 				});
 			}, 50);
