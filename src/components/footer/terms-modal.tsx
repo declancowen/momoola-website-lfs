@@ -17,11 +17,11 @@ export function TermsModal() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<span className="text-black hover:text-dynamic-green transition-colors cursor-pointer font-medium">
+				<span className="text-black hover:text-dynamic-green transition-colors cursor-pointer">
 					Terms & Conditions
 				</span>
 			</DialogTrigger>
-			<DialogContent className="flex flex-col gap-0 p-0 sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5 bg-white border-gray-200 text-black">
+			<DialogContent className="flex flex-col gap-0 p-0 h-[100dvh] sm:h-auto sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5 bg-white border-gray-200 text-black">
 				<DialogHeader className="contents space-y-0 text-left">
 					<DialogTitle className="border-b border-gray-200 px-6 py-4 text-base text-black">
 						Terms & Conditions
