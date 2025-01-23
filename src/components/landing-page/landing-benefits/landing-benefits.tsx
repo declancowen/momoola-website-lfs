@@ -211,8 +211,8 @@ export default function Benefits() {
 	}, [activeIndex]);
 
 	return (
-		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1750px] sm:h-[750px] md:h-[750px] flex items-start justify-center relative isolate z-[1] py-8 sm:py-16 overflow-visible">
-			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-start z-[1] h-full pt-4 sm:pt-8">
+		<section id="benefits" className="w-full bg-gray-50 min-h-[85dvh] h-[1750px] sm:h-[750px] md:h-[750px] flex items-center justify-center relative isolate z-[1] py-8 sm:py-0 overflow-visible">
+			<div className="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-center z-[1] h-full">
 				<div className="flex flex-col lg:flex-row items-center justify-center gap-0 sm:gap-8 lg:gap-12 w-full">
 					<div className="w-full lg:w-1/2 flex flex-col justify-center px-4 md:px-0 text-center lg:text-left order-1 lg:order-2 mb-8 lg:mb-0">
 						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black min-h-[4rem] mb-6">
@@ -224,7 +224,7 @@ export default function Benefits() {
 							variants={textVariants}
 							initial="hidden"
 							animate="visible"
-							className="text-lg md:text-xl text-black leading-relaxed md:leading-loose lg:pr-7 mb-8 sm:mb-12 md:mb-16 transform-gpu text-center lg:text-left"
+							className="text-lg md:text-xl text-gray-600 leading-relaxed md:leading-loose lg:pr-7 mb-8 sm:mb-12 md:mb-16 transform-gpu text-center lg:text-left"
 						>
 							{activeIndex === 0 ? (
 								"MoMoola is your gateway to a smarter financial future. Discover personalized financial products that match your needs, apply with ease through simplified processes, and monitor your financial health—all from one secure platform. Whether it's building your credit, managing your spending, or connecting with trusted financial partners, MoMoola puts you in control of your financial journey."
