@@ -15,11 +15,11 @@ import {
 
 export function PrivacyModal() {
 	return (
-		<Dialog onOpenChange={(open) => {
+		<Dialog onOpenChange={(open: boolean) => {
 				if (typeof window !== 'undefined' && window.innerWidth < 640) {
-					const nav = document.querySelector('.floating-nav');
-					if (nav) {
-						nav.style.display = open ? 'none' : 'block';
+					const nav = document.querySelector('.floating-nav') as HTMLElement;
+				if (nav) {
+					nav.style.display = open ? 'none' : 'block';
 					}
 				}
 			}}>
