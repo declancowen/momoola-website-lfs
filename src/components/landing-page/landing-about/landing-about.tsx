@@ -178,7 +178,7 @@ export default function About() {
                 ))}
             </div>
             {imagesLoaded && (
-<section id="about" className="w-full bg-white relative isolate z-40 min-h-screen py-8 sm:py-16">
+<section id="about" className="w-full bg-white relative isolate z-40 min-h-screen py-8 sm:py-0 sm:flex sm:items-center">
 			{/* Navigation Buttons */}
 			<div className="absolute -translate-y-[40px] sm:translate-y-0 -bottom-2 sm:-bottom-6 lg:bottom-16 inset-x-0 z-10">
 				<div className="container mx-auto px-4">
