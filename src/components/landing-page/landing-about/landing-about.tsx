@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarModal } from "../../modals/calendar-modal"
@@ -163,21 +163,25 @@ export default function About() {
 		setCurrentIndex(prev => (prev + 1) % images.length);
 	}, []);
 
+	const intervalRef = useRef<NodeJS.Timeout>();
+
 	useEffect(() => {
-		const id = setInterval(handleAutoTransition, 7000);
-		return () => clearInterval(id);
-	}, [handleAutoTransition]);
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current);
+		}
+		intervalRef.current = setInterval(handleAutoTransition, 7000);
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
+		};
+	}, [handleAutoTransition, currentIndex]);
 
 	const handleNavigation = useCallback((newIndex: number) => {
 		if (newIndex === currentIndex) return;
 		setDirection(newIndex > currentIndex ? 1 : -1);
 		setCurrentIndex(newIndex);
-		// Reset the auto-transition timer when manually navigating
-		if (typeof window !== 'undefined') {
-			const id = setInterval(handleAutoTransition, 7000);
-			return () => clearInterval(id);
-		}
-	}, [currentIndex, handleAutoTransition]);
+	}, [currentIndex]);
 
 	const getSlideIndex = useCallback((offset: number) => {
 		return (currentIndex + offset + images.length) % images.length;
