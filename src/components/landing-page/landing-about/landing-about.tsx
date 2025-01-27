@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarModal } from "../../modals/calendar-modal"
@@ -96,27 +96,34 @@ const slideVariants = {
 	})
 };
 
-
-
-
-
-
-
-
-
-
 const images = [
-	"/assets/mobile-ui/1-Register.png",
-	"/assets/mobile-ui/2-Browse.png",
-	"/assets/mobile-ui/3-Tailor.png",
-	"/assets/mobile-ui/4-Apply.png",
+	"/assets/mobile-ui/1-KYC.png",
+	"/assets/mobile-ui/2-Marketplace.png",
+	"/assets/mobile-ui/3-Apply.png",
+	"/assets/mobile-ui/4-Submit.png",
+	"/assets/mobile-ui/5-Credit.png"
 ];
+
+const preloadImage = (src: string): Promise<void> => {
+	if (typeof window === 'undefined') return Promise.resolve();
+	
+	return new Promise<void>((resolve, reject) => {
+		const img = new window.Image();
+		img.onload = () => resolve();
+		img.onerror = (error) => {
+			console.error(`Failed to load image: ${src}`);
+			reject(error); // Reject on error to properly handle failures
+		};
+		img.src = src;
+	});
+};
 
 const titles = [
 	"Create your digital identity",
 	"Receive personalised offers",
 	"Connect with financial partners",
 	"Apply in seconds",
+	"Monitor your credit",
 ];
 
 export default function About() {
@@ -130,7 +137,10 @@ export default function About() {
 		return new Promise<void>((resolve, reject) => {
 			const img = new window.Image();
 			img.onload = () => resolve();
-			img.onerror = reject;
+			img.onerror = (error) => {
+				console.error(`Failed to load image: ${src}`, error);
+				resolve(); // Resolve anyway to continue loading other images
+			};
 			img.src = src;
 		});
 	};
@@ -153,10 +163,19 @@ export default function About() {
 		setCurrentIndex(prev => (prev + 1) % images.length);
 	}, []);
 
+	const intervalRef = useRef<NodeJS.Timeout>();
+
 	useEffect(() => {
-		const id = setInterval(handleAutoTransition, 7000);
-		return () => clearInterval(id);
-	}, [handleAutoTransition]);
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current);
+		}
+		intervalRef.current = setInterval(handleAutoTransition, 7000);
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
+		};
+	}, [handleAutoTransition, currentIndex]);
 
 	const handleNavigation = useCallback((newIndex: number) => {
 		if (newIndex === currentIndex) return;
@@ -178,7 +197,7 @@ export default function About() {
                 ))}
             </div>
             {imagesLoaded && (
-<section id="about" className="w-full bg-white relative isolate z-40 min-h-screen py-8 sm:py-0 sm:flex sm:items-center">
+<section id="about" className="w-full bg-white relative isolate z-40 min-h-[1000px] sm:min-h-[100vh] py-0 flex items-start justify-start sm:items-center sm:justify-center pt-16 sm:pt-0">
 			{/* Navigation Buttons */}
 			<div className="absolute -translate-y-[40px] sm:translate-y-0 -bottom-2 sm:-bottom-6 lg:bottom-16 inset-x-0 z-10">
 				<div className="container mx-auto px-4">
@@ -209,9 +228,9 @@ export default function About() {
 					</div>
 				</div>
 			</div>
-			<div className="container mx-auto px-6 flex flex-col h-full pt-4 sm:pt-8">
-				<div className="flex flex-col lg:flex-row items-start sm:items-center gap-2 sm:gap-6 lg:gap-10 w-full h-full">
-					<div className="w-full lg:w-1/2 px-4 md:px-0 text-center lg:text-left mb-8 lg:mb-0 pt-2 sm:pt-0 order-1 lg:order-1">
+			<div className="container mx-auto px-4 sm:px-6 flex flex-col h-full">
+				<div className="flex flex-col lg:flex-row items-start sm:items-center gap-6 sm:gap-6 lg:gap-10 w-full h-full pt-0">
+					<div className="w-full lg:w-1/2 px-6 md:px-0 text-center lg:text-left mb-8 lg:mb-0 pt-2 sm:pt-0 order-1 lg:order-1">
 						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 min-h-[3.5rem] mb-3 md:mb-6">
 							{displayText}
 							<span className="inline-block w-6 sm:w-8 h-1.5 bg-[#66f770] ml-1 animate-[blink_0.8s_ease-in-out_infinite]"></span>
@@ -232,50 +251,50 @@ export default function About() {
 						</div>
                     </div>
 
-					<div className="w-full lg:w-1/2 min-h-[400px] sm:h-[500px] md:h-[600px] relative -mt-10 sm:mt-0 order-2 lg:order-2 flex-shrink-0">
-						<div className="absolute inset-0 flex flex-col w-full h-full">
+					<div className="w-full lg:w-1/2 min-h-[300px] sm:h-[500px] md:h-[500px] relative order-2 lg:order-2 flex-shrink-0 flex items-center">
+						<div className="absolute inset-0 flex flex-col items-start w-full h-full">
 							<div className="w-[90%] sm:w-[95%] mx-auto h-full">
-								<div className="grid grid-cols-[0.5fr_1.5fr_0.5fr] sm:grid-cols-[0.65fr_1.5fr_0.65fr] gap-2 sm:gap-3 h-full w-full">
+								<div className="grid grid-cols-[0.5fr_1.5fr_0.5fr] sm:grid-cols-[0.65fr_1.5fr_0.65fr] gap-2 sm:gap-3 h-full w-full overflow-hidden">
 									{[-1, 0, 1].map((offset) => {
 										const slideIndex = getSlideIndex(offset);
 										const position = offset === -1 
-											? "opacity-30 translate-x-[10px] sm:translate-x-0" 
+											? "opacity-30" 
 											: offset === 0 
 												? "" 
-												: "opacity-30 -translate-x-[10px] sm:translate-x-0";
+												: "opacity-30";
 										
 										return (
 											<motion.div 
 												key={`slide-${slideIndex}`}
-												className={`flex justify-center ${position} transform-gpu`}
+												className={`flex justify-center ${position} transform-gpu overflow-hidden`}
 												style={{ 
 													zIndex: offset === 0 ? 2 : 1,
 													transformOrigin: 'center top',
 													position: 'relative',
-													height: '100%'
+													height: '100%',
+													width: '100%'
 												}}
-
 												variants={slideVariants}
 												custom={direction}
 												initial="exit"
 												animate="enter"
 												exit="exit"
 											>
-												<div className="relative w-full h-full flex items-center justify-center">
+												<div className="relative w-full h-full flex items-center justify-center overflow-hidden">
 													<Image
 														src={images[slideIndex]}
 														alt={offset === 0 ? "Current" : offset === -1 ? "Previous" : "Next"}
 														width={1000}
 														height={2000}
-														className={`object-contain h-full w-full ${offset === 0 ? '-translate-x-[9px] sm:translate-x-0' : ''}`}
+														className="object-contain h-full w-full"
 														style={{ 
 															maxWidth: '100%', 
+															maxHeight: '100%',
 															objectFit: 'contain', 
-															height: '100%', 
-															width: 'auto', 
+															height: 'auto', 
+															width: '100%', 
 															margin: '0 auto'
 														}}
-
 														priority
 														loading="eager"
 														quality={90}
