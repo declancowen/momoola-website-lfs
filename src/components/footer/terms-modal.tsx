@@ -21,7 +21,21 @@ export function TermsModal() {
 					Terms & Conditions
 				</span>
 			</DialogTrigger>
-			<DialogContent className="flex flex-col gap-0 p-0 h-[100dvh] sm:h-auto sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5 bg-white border-gray-200 text-black">
+			<DialogContent className="flex flex-col gap-0 p-0 h-[100dvh] sm:h-auto sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5 bg-white border-gray-200 text-black [&.orientation-lock]:!h-[100dvh] [&.orientation-lock]:!max-h-none screen-orientation-lock" style={{ transform: 'none', WebkitTransform: 'none' }}>
+<style jsx global>{`
+  @media screen and (orientation: landscape) and (max-width: 768px) {
+    body {
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      width: 100vh;
+      height: 100vw;
+      overflow-x: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+`}</style>
 				<DialogHeader className="contents space-y-0 text-left">
 					<DialogTitle className="border-b border-gray-200 px-6 py-4 text-base text-black">
 						Terms & Conditions
