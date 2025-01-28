@@ -18,9 +18,9 @@ const handleKnowledgebaseClick = () => {
 };
 
 // Optimization: Constants for performance tuning
-const THROTTLE_MS = 32; // Increased from 12ms to 32ms for better performance
-const DOT_SPACING = 25; // Increased spacing slightly
-const MAX_DOTS = 2000; // Limit total number of dots
+const THROTTLE_MS = 32;
+const DOT_SPACING = 25;
+const MAX_DOTS = 4000;
 const ANIMATION_DISTANCE = 120;
 
 const useWindowDimensions = () => {
@@ -137,7 +137,7 @@ export default function Hero() {
 		const distance = Math.sqrt(dx * dx + dy * dy);
 		const scale = Math.max(0, 1 - distance / ANIMATION_DISTANCE);
 		const scaledValue = Math.pow(scale, 1.15);
-
+	
 		return {
 			left: dot.x,
 			top: dot.y,

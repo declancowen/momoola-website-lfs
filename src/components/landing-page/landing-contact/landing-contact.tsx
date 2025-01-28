@@ -8,9 +8,10 @@ import { motion } from "framer-motion"
 import { Badge } from "./badge"
 import { Button } from "./button"
 
+const THROTTLE_MS = 32;
+const DOT_SPACING = 25;
+const MAX_DOTS = 2000;
 const ANIMATION_DISTANCE = 120;
-const DOT_SPACING = 50; // Smaller spacing for denser pattern
-const MAX_DOTS = 400; // Increased to allow more dots with smaller spacing
 
 
 export default function Contact() {

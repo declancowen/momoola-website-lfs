@@ -3,6 +3,7 @@ import './globals.css'
 import Footer from '@/components/footer/footer'
 import { EmailSignupModalProvider } from '@/components/modals/email-signup-modal'
 import { FloatingNav } from '@/components/navigation/floating-nav'
+import { OrientationLock } from '@/components/orientation/orientation-lock'
 
 export const metadata: Metadata = {
 	title: 'MoMoola',
@@ -22,6 +23,7 @@ export default function RootLayout({
 		<html lang="en" suppressHydrationWarning>
 			<body className="min-h-screen bg-background font-sans antialiased overflow-x-hidden flex flex-col" suppressHydrationWarning>
 				<EmailSignupModalProvider autoOpen={true}>
+					<OrientationLock />
 					<FloatingNav />
 					<div className="flex-1 flex flex-col">
 						{children}
