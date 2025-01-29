@@ -20,7 +20,7 @@ const handleKnowledgebaseClick = () => {
 // Optimization: Constants for performance tuning
 const THROTTLE_MS = 32;
 const DOT_SPACING = 25;
-const MAX_DOTS = 4000;
+const MAX_DOTS = 2000;
 const ANIMATION_DISTANCE = 120;
 
 const useWindowDimensions = () => {
