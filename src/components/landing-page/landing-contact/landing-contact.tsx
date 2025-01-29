@@ -9,9 +9,9 @@ import { Badge } from "./badge"
 import { Button } from "./button"
 
 const THROTTLE_MS = 32;
-const DOT_SPACING = 25;
-const MAX_DOTS = 2000;
-const ANIMATION_DISTANCE = 120;
+const DOT_SPACING = 35;
+const MAX_DOTS = 1500;
+const ANIMATION_DISTANCE = 150;
 
 
 export default function Contact() {
